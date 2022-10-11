@@ -25,16 +25,6 @@ public class CustomerController {
         this.modelMapper = modelMapper;
     }
 
-    public CustomerAddressDTO convertToDto(Customer customer) {
-        assert modelMapper != null;
-        return modelMapper.map(customer, CustomerAddressDTO.class);
-    }
-
-    public Customer convertToEntity(CustomerAddressDTO customerAddressDTO) {
-        assert modelMapper != null;
-        return modelMapper.map(customerAddressDTO, Customer.class);
-    }
-
     public Address callViaCep(String cep) {
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://viacep.com.br/ws/" + cep + "/json/";
