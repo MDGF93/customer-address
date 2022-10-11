@@ -25,6 +25,16 @@ public class CustomerController {
         this.modelMapper = modelMapper;
     }
 
+    public CustomerAddressDTO convertToDto(Customer customer) {
+        assert modelMapper != null;
+        return modelMapper.map(customer, CustomerAddressDTO.class);
+    }
+
+    public Customer convertToEntity(CustomerAddressDTO customerAddressDTO) {
+        assert modelMapper != null;
+        return modelMapper.map(customerAddressDTO, Customer.class);
+    }
+
     public Address callViaCep(String cep) {
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://viacep.com.br/ws/" + cep + "/json/";
@@ -49,7 +59,7 @@ public class CustomerController {
 //    }
 
     @PostMapping("/save")
-    public Customer saveTest(@RequestBody CustomerAddressDTO customerAddressDTO) {
+    public Customer save(@RequestBody CustomerAddressDTO customerAddressDTO) {
         Customer customer = modelMapper.map(customerAddressDTO, Customer.class);
         Address address = new Address(customerAddressDTO.getCep(), customerAddressDTO.getExtraInfo(),
                           customerAddressDTO.getNumber(), true, customer);
@@ -67,9 +77,6 @@ public class CustomerController {
         address.setCustomer(customerService.findById(id));
         return customerService.addAddressToCostumer(id, address);
     }
-
-
-
     @GetMapping("/findAllDTO")
     public List<CustomerAddressDTO> findAllDTO() {
         //convert entity to dto
@@ -79,7 +86,6 @@ public class CustomerController {
         }
         return customerAddressDTOList;
     }
-
     @GetMapping("/findAll")
     public List<Customer> findAll() {
         return customerService.findAll();
