@@ -5,14 +5,18 @@ import lombok.Data;
 @Data
 public class AddressDTO {
     private String cep;
-    private String extraInfo;
+    private String city;
+    private String state;
     private String number;
+    private String extraInfo;
     private boolean mainAddress;
 
-    public AddressDTO(String cep, String extraInfo, String number, boolean mainAddress) {
+    public AddressDTO(String cep, String city, String state, String number, String extraInfo, boolean mainAddress) {
         this.cep = cep;
-        this.extraInfo = extraInfo;
+        this.city = city;
+        this.state = state;
         this.number = number;
+        this.extraInfo = extraInfo;
         this.mainAddress = mainAddress;
     }
 
@@ -49,5 +53,21 @@ public class AddressDTO {
 
     public String getNumber() {
         return number;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

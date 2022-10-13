@@ -47,24 +47,20 @@ public class CustomerController {
 //        customerService.save(customer);
 //        return customerAddressDTO;
 //    }
-
     @PostMapping("/save")
     public Customer save(@RequestBody CustomerAddressDTO customerAddressDTO) {
         Customer customer = modelMapper.map(customerAddressDTO, Customer.class);
-        Address address = new Address(customerAddressDTO.getCep(), customerAddressDTO.getExtraInfo(),
-                          customerAddressDTO.getNumber(), true, customer);
-        customer.setAddressList(List.of(address)); // Evita NPE
+        Address address = modelMapper.map(customerAddressDTO, Address.class);
+        address.setMainAddress(true);
+        address.setCustomer(customer);
+        customer.setAddressList(List.of(address));
         customerService.save(customer);
         return customer;
     }
 
     @PostMapping("/addAddress/{id}")
     public Customer addAddressToCostumer(@RequestBody AddressDTO addressDTO, @PathVariable Long id) {
-        Address address = callViaCep(addressDTO.getCep());
-        address.setNumber(addressDTO.getNumber());
-        address.setExtraInfo(addressDTO.getExtraInfo());
-        address.setMainAddress(addressDTO.isMainAddress());
-        address.setCustomer(customerService.findById(id));
+        Address address = modelMapper.map(addressDTO, Address.class);
         return customerService.addAddressToCostumer(id, address);
     }
     @GetMapping("/findAllDTO")
@@ -91,4 +87,11 @@ public class CustomerController {
         return customerService.removeAddressFromCustomer(id, addressId);
     }
 
+    @PutMapping("/update/{id}")
+    public Customer update(@RequestBody CustomerAddressDTO customerAddressDTO, @PathVariable Long id) {
+        Customer customer = modelMapper.map(customerAddressDTO, Customer.class);
+        customer.setId(id);
+        customer.setAddressList(customerService.findById(id).getAddressList());
+        return customerService.update(customer);
+    }
 }

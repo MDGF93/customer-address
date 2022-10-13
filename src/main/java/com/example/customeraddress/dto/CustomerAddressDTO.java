@@ -8,24 +8,16 @@ public class CustomerAddressDTO {
     private String cpf = null;
     private String cnpj = null;
     private String cep;
+    private String city;
+    private String state;
     private String number;
     private String extraInfo;
     private boolean mainAddress = false;
 
-    public boolean isMainAddress() {
-        return mainAddress;
-    }
-
-    public void setMainAddress(boolean mainAddress) {
-        this.mainAddress = mainAddress;
-    }
-
-
     public CustomerAddressDTO() {
     }
 
-    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, String cpf, String cnpj,
-                              String cep, String number, String extraInfo, boolean mainAddress) {
+    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, String cpf, String cnpj, String cep, String city, String state, String number, String extraInfo, boolean mainAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -33,9 +25,29 @@ public class CustomerAddressDTO {
         this.cpf = cpf;
         this.cnpj = cnpj;
         this.cep = cep;
+        this.city = city;
+        this.state = state;
         this.number = number;
         this.extraInfo = extraInfo;
         this.mainAddress = mainAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerAddressDTO{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", cep='" + cep + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", number='" + number + '\'' +
+                ", extraInfo='" + extraInfo + '\'' +
+                ", mainAddress=" + mainAddress +
+                '}';
     }
 
     public String getFirstName() {
@@ -94,6 +106,22 @@ public class CustomerAddressDTO {
         this.cep = cep;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public String getNumber() {
         return number;
     }
@@ -108,5 +136,13 @@ public class CustomerAddressDTO {
 
     public void setExtraInfo(String extraInfo) {
         this.extraInfo = extraInfo;
+    }
+
+    public boolean isMainAddress() {
+        return mainAddress;
+    }
+
+    public void setMainAddress(boolean mainAddress) {
+        this.mainAddress = mainAddress;
     }
 }

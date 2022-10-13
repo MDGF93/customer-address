@@ -16,11 +16,32 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
+        //If CPF already in database throw exception
+        if (Objects.nonNull(customerRepository.findByCpf(customer.getCpf()))) {
+            throw new RuntimeException("CPF already in database");
+        }
+        //If CNPJ already in database throw exception
+        if (Objects.nonNull(customerRepository.findByCnpj(customer.getCnpj()))) {
+            throw new RuntimeException("CNPJ already in database");
+        }
         if (customer.getAddressList().size() == 1) {
             customer.getAddressList().get(0).setMainAddress(true);
         }
         customerRepository.save(customer);
+        return customer;
+    }
+
+    public Customer update(Customer customer) {
+        Customer customerFromDB = customerRepository.findById(customer.getId()).orElseThrow();
+        customerFromDB.setFirstName(customer.getFirstName());
+        customerFromDB.setLastName(customer.getLastName());
+        customerFromDB.setCpf(customer.getCpf());
+        customerFromDB.setCnpj(customer.getCnpj());
+        customerFromDB.setPhone(customer.getPhone());
+        customerFromDB.setEmail(customer.getEmail());
+        customerRepository.save(customerFromDB);
+        return customerFromDB;
     }
 
     public List<Customer> findAll() {

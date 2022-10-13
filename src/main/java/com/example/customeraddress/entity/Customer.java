@@ -46,4 +46,19 @@ public class Customer {
     public Customer() {
     }
 
+    public Customer(
+            String firstName,
+            String lastName,
+            String email,
+            String phone,
+            @MaybeNull String cpf,
+            @MaybeNull String cnpj) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.cpf = cpf;
+        this.cnpj = cnpj;
+    }
+
 }

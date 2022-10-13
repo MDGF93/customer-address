@@ -6,7 +6,8 @@ import com.example.customeraddress.entity.Customer;
 import java.util.List;
 
 public interface CustomerService {
-    public void save(Customer customer);
+    public Customer save(Customer customer);
+    public Customer update(Customer customer);
     public List<Customer> findAll();
     public Customer findById(Long id);
     public void delete(Long id);
