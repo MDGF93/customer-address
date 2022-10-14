@@ -17,8 +17,7 @@ import javax.validation.ConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -234,5 +233,23 @@ public class CustomerControllerTest {
                 .content(json().build().writeValueAsString(addressDTO))))
                 .isInstanceOf(NestedServletException.class)
                 .hasCauseInstanceOf(ConstraintViolationException.class);
+    }
+
+    @Test
+    public void removeAddressFromCustomer_RemovingMoreTimesThanCurrentAddressListSize_ShouldNotRemoveLastAddress() throws Exception {
+        CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
+                VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
+        AddressDTO addressDTO = new AddressDTO(VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, false);
+        mockMvc.perform(post("/customer/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(customerAddressDTO)));
+        mockMvc.perform(post("/customer/addAddress/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(addressDTO)));
+        mockMvc.perform(delete("/customer/removeAddress/1/2")).andDo(print());
+        assertThatThrownBy(() -> mockMvc.perform(delete("/customer/removeAddress/1/1")))
+                .isInstanceOf(NestedServletException.class)
+                .hasCauseInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Customer can't have less than 1 address");
     }
 }
