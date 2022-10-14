@@ -4,7 +4,10 @@ import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
 import com.example.customeraddress.repository.CustomerRepository;
 import com.example.customeraddress.service.CustomerService;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,10 +64,11 @@ public class CustomerServiceImpl implements CustomerService {
         } else throw new RuntimeException("Customer id not found");
     }
 
+    @SneakyThrows
     public Customer addAddressToCostumer(Long id, Address address) {
         if (customerRepository.findById(id).isPresent()) {
             if (customerRepository.findById(id).get().getAddressList().size() >= 5) {
-                throw new RuntimeException("Customer can't have more than 5 addresses");
+                throw new ConstraintViolationException(null);
             }
             if (address.isMainAddress()) {
                 Customer customer = customerRepository.findById(id).get();

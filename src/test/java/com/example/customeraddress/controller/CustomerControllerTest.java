@@ -3,35 +3,24 @@ package com.example.customeraddress.controller;
 import com.example.customeraddress.dto.AddressDTO;
 import com.example.customeraddress.dto.CustomerAddressDTO;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.web.util.NestedServletException;
+
 import javax.validation.ConstraintViolationException;
 
-import javax.validation.ConstraintViolation;
-
-import java.util.Set;
-
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.junit.Assert.assertEquals;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @RunWith(SpringRunner.class)
@@ -68,10 +57,10 @@ public class CustomerControllerTest {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         mockMvc.perform(post("/customer/save")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json().build().writeValueAsString(customerAddressDTO)))
-            .andDo(print())
-            .andExpect(status().isOk());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json().build().writeValueAsString(customerAddressDTO)))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -80,8 +69,8 @@ public class CustomerControllerTest {
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         assertThatThrownBy(() -> {
             mockMvc.perform(post("/customer/save")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(json().build().writeValueAsString(customerAddressDTO)))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(json().build().writeValueAsString(customerAddressDTO)))
                     .andDo(print())
                     .andExpect(status().isOk());
         }).isInstanceOf(NestedServletException.class);
@@ -93,8 +82,8 @@ public class CustomerControllerTest {
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         AddressDTO addressDTO = new AddressDTO(VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         mockMvc.perform(post("/customer/save")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json().build().writeValueAsString(customerAddressDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json().build().writeValueAsString(customerAddressDTO)))
                 .andDo(print())
                 .andExpect(status().isOk());
         mockMvc.perform(post("/customer/addAddress/1")
@@ -119,7 +108,7 @@ public class CustomerControllerTest {
     @Test
     public void save_AddingNewCustomerWithInvalidCnpj_ShouldNotSave() throws Exception {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
-                VALID_PHONE, VALID_CPF, "85677342000102", VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET,VALID_NUMBER, VALID_EXTRAINFO, true);
+                VALID_PHONE, VALID_CPF, "85677342000102", VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json().build().writeValueAsString(customerAddressDTO))))
@@ -139,7 +128,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void save_AddingNewCustomerWithInvalidPhone_ShouldNotSave() throws Exception {
+    public void save_AddingNewCustomerWithInvalidPhone_ShouldNotSave() {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 "(83) 9999-9999", VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
@@ -150,7 +139,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void save_AddingNewCustomerWithInvalidCep_ShouldNotSave() throws Exception {
+    public void save_AddingNewCustomerWithInvalidCep_ShouldNotSave() {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, "58102051", VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
@@ -161,7 +150,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void save_AddingNewCustomerWithBlankCity_ShouldNotSave() throws Exception{
+    public void save_AddingNewCustomerWithBlankCity_ShouldNotSave() {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, "", VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
@@ -172,7 +161,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void save_AddingNewCustomerWithBlankState_ShouldNotSave() throws Exception{
+    public void save_AddingNewCustomerWithBlankState_ShouldNotSave() {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, "", VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
@@ -183,7 +172,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void save_AddingNewCustomerWithBlankNumber_ShouldNotSave() throws Exception{
+    public void save_AddingNewCustomerWithBlankNumber_ShouldNotSave() {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, "", VALID_EXTRAINFO, true);
         assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
@@ -193,4 +182,57 @@ public class CustomerControllerTest {
                 .hasCauseInstanceOf(ConstraintViolationException.class);
     }
 
+    @Test
+    public void save_SavingCustomersWithSameCnpj_ShouldNotSave() throws Exception {
+        CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
+                VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
+        CustomerAddressDTO customerAddressDTO2 = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
+                VALID_PHONE, "20244173028", VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
+        mockMvc.perform(post("/customer/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(customerAddressDTO)));
+        assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(customerAddressDTO2))))
+                .isInstanceOf(NestedServletException.class)
+                .hasCauseInstanceOf(RuntimeException.class)
+                .hasMessageContaining("CNPJ already in database");
+    }
+
+    @Test
+    public void save_SavingCustomersWithSameCpf_ShouldNotSave() throws Exception {
+        CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
+                VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
+        CustomerAddressDTO customerAddressDTO2 = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
+                VALID_PHONE, VALID_CPF, "04295808000102", VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
+        mockMvc.perform(post("/customer/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(customerAddressDTO)));
+        assertThatThrownBy(() -> mockMvc.perform(post("/customer/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(customerAddressDTO2))))
+                .isInstanceOf(NestedServletException.class)
+                .hasCauseInstanceOf(RuntimeException.class)
+                .hasMessageContaining("CPF already in database");
+    }
+
+    @Test
+    public void addAddress_AddingMoreThanFiveAddressesToCustomer_ShouldNotSave() throws Exception {
+        CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
+                VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
+        AddressDTO addressDTO = new AddressDTO(VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, false);
+        mockMvc.perform(post("/customer/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(customerAddressDTO)));
+        for (int i = 0; i < 4; i++) {
+            mockMvc.perform(post("/customer/addAddress/1")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(json().build().writeValueAsString(addressDTO)));
+        }
+        assertThatThrownBy(() -> mockMvc.perform(post("/customer/addAddress/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json().build().writeValueAsString(addressDTO))))
+                .isInstanceOf(NestedServletException.class)
+                .hasCauseInstanceOf(ConstraintViolationException.class);
+    }
 }
