@@ -7,20 +7,30 @@ public class AddressDTO {
     private String cep;
     private String city;
     private String state;
+    private String street;
     private String number;
     private String extraInfo;
     private boolean mainAddress;
 
-    public AddressDTO(String cep, String city, String state, String number, String extraInfo, boolean mainAddress) {
+    public AddressDTO(String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress) {
         this.cep = cep;
         this.city = city;
         this.state = state;
+        this.street = street;
         this.number = number;
         this.extraInfo = extraInfo;
         this.mainAddress = mainAddress;
     }
 
     public AddressDTO() {
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public boolean isMainAddress() {

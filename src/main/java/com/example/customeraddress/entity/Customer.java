@@ -30,7 +30,7 @@ public class Customer {
     @Pattern(regexp = "^\\([1-9]{2}\\) (?:[2-8]|9[1-9])[0-9]{3}\\-[0-9]{4}$")// (99) 99999-9999
     private String phone;
 
-    @CPF
+    @CPF(message = "CPF inválido")
     @Nullable
     private String cpf;
 

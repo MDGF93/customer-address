@@ -25,14 +25,6 @@ public class CustomerController {
         this.modelMapper = modelMapper;
     }
 
-    public Address callViaCep(String cep) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "https://viacep.com.br/ws/" + cep + "/json/";
-        String result = restTemplate.getForObject(url, String.class);
-        Gson gson = new Gson();
-        return gson.fromJson(result, Address.class);
-    }
-
 //    @PostMapping("/save")
 //    public CustomerAddressDTO save(@RequestBody CustomerAddressDTO customerAddressDTO) {
 //        Customer customer = new Customer();

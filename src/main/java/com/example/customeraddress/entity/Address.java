@@ -33,9 +33,11 @@ public class Address {
     private String state;
 
     @NotBlank
-    private String number;
+    private String street;
 
     @NotBlank
+    private String number;
+
     private String extraInfo;
     private boolean mainAddress;
 

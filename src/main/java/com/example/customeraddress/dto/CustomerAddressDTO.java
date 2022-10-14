@@ -10,6 +10,10 @@ public class CustomerAddressDTO {
     private String cep;
     private String city;
     private String state;
+
+
+
+    private String street;
     private String number;
     private String extraInfo;
     private boolean mainAddress = false;
@@ -17,7 +21,7 @@ public class CustomerAddressDTO {
     public CustomerAddressDTO() {
     }
 
-    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, String cpf, String cnpj, String cep, String city, String state, String number, String extraInfo, boolean mainAddress) {
+    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, String cpf, String cnpj, String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -27,6 +31,7 @@ public class CustomerAddressDTO {
         this.cep = cep;
         this.city = city;
         this.state = state;
+        this.street = street;
         this.number = number;
         this.extraInfo = extraInfo;
         this.mainAddress = mainAddress;
@@ -145,4 +150,13 @@ public class CustomerAddressDTO {
     public void setMainAddress(boolean mainAddress) {
         this.mainAddress = mainAddress;
     }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
 }
