@@ -1,27 +1,61 @@
 package com.example.customeraddress.dto;
 
+import net.bytebuddy.utility.nullability.MaybeNull;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.lang.Nullable;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 public class CustomerAddressDTO {
+
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @Email
     private String email;
+
+    @Pattern(regexp = "^\\([1-9]{2}\\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$")// (99) 99999-9999
     private String phone;
+
+    @CPF(message = "CPF inválido")
+    @Nullable
     private String cpf = null;
+
+    @CNPJ
+    @Nullable
     private String cnpj = null;
+
+    @NotBlank
+    @Pattern(regexp = "^\\d{5}-\\d{3}$") // 99999-999
     private String cep;
+
+    @NotBlank
     private String city;
+
+    @NotBlank
     private String state;
 
-
-
+    @NotBlank
     private String street;
+
+    @NotBlank
     private String number;
+
+    @Nullable
     private String extraInfo;
+
     private boolean mainAddress = false;
 
     public CustomerAddressDTO() {
     }
 
-    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, String cpf, String cnpj, String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress) {
+    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, @MaybeNull String cpf, @MaybeNull String cnpj, String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -36,127 +70,4 @@ public class CustomerAddressDTO {
         this.extraInfo = extraInfo;
         this.mainAddress = mainAddress;
     }
-
-    @Override
-    public String toString() {
-        return "CustomerAddressDTO{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", cnpj='" + cnpj + '\'' +
-                ", cep='" + cep + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", number='" + number + '\'' +
-                ", extraInfo='" + extraInfo + '\'' +
-                ", mainAddress=" + mainAddress +
-                '}';
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getExtraInfo() {
-        return extraInfo;
-    }
-
-    public void setExtraInfo(String extraInfo) {
-        this.extraInfo = extraInfo;
-    }
-
-    public boolean isMainAddress() {
-        return mainAddress;
-    }
-
-    public void setMainAddress(boolean mainAddress) {
-        this.mainAddress = mainAddress;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
 }

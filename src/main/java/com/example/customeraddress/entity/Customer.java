@@ -16,26 +16,11 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
     private String firstName;
-
-    @NotBlank
     private String lastName;
-
-    @Email
     private String email;
-
-
-    @Pattern(regexp = "^\\([1-9]{2}\\) (?:[2-8]|9[1-9])[0-9]{3}\\-[0-9]{4}$")// (99) 99999-9999
     private String phone;
-
-    @CPF(message = "CPF inválido")
-    @Nullable
     private String cpf;
-
-    @CNPJ
-    @Nullable
     private String cnpj;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -60,5 +45,4 @@ public class Customer {
         this.cpf = cpf;
         this.cnpj = cnpj;
     }
-
 }

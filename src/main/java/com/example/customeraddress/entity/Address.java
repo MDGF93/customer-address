@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
@@ -21,23 +20,11 @@ public class Address {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
-    @Pattern(regexp = "^\\d{5}-\\d{3}$") // 99999-999
     private String cep;
-
-    @NotBlank
     private String city;
-
-    @NotBlank
     private String state;
-
-    @NotBlank
     private String street;
-
-    @NotBlank
     private String number;
-
     private String extraInfo;
     private boolean mainAddress;
 
