@@ -4,7 +4,6 @@ import net.bytebuddy.utility.nullability.MaybeNull;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.lang.Nullable;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

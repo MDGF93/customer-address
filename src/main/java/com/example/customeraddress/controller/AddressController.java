@@ -14,7 +14,6 @@ import com.example.customeraddress.service.AddressService;
 @RequestMapping("/address")
 public class AddressController {
     private final AddressService addressService;
-
     @Autowired
     public AddressController(AddressService addressService) {
         this.addressService = addressService;

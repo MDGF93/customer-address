@@ -1,14 +1,9 @@
 package com.example.customeraddress.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.Gson;
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.web.client.RestTemplate;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity

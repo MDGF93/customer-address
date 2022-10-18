@@ -5,7 +5,6 @@ import com.example.customeraddress.repository.AddressRepository;
 import com.example.customeraddress.service.AddressService;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class AddressServiceImpl implements AddressService {
