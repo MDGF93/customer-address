@@ -1,36 +1,33 @@
 package com.example.customeraddress.dto;
 
-import lombok.Data;
 import net.bytebuddy.utility.nullability.MaybeNull;
 import org.springframework.lang.Nullable;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@Data
 public class AddressDTO {
     @NotBlank
     @Pattern(regexp = "^\\d{5}-\\d{3}$") // 99999-999
-    private String cep;
+    public String cep;
 
     @NotBlank
-    private String city;
+    public String city;
 
     @NotBlank
-    private String state;
+    public String state;
 
     @NotBlank
-    private String street;
+    public String street;
 
     @NotBlank
-    private String number;
+    public String number;
 
     @Nullable
-    private String extraInfo;
+    public String extraInfo;
 
     @NotNull
-    private boolean mainAddress;
+    public boolean mainAddress;
 
     public AddressDTO() {
     }

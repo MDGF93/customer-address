@@ -4,10 +4,12 @@ import com.example.customeraddress.dto.AddressDTO;
 import com.example.customeraddress.dto.CustomerAddressDTO;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
+import com.example.customeraddress.mapper.AddressMapper;
+import com.example.customeraddress.mapper.CustomerAddressMapper;
 import com.example.customeraddress.service.CustomerService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +17,15 @@ import java.util.List;
 @RequestMapping("/customer")
 public class CustomerController {
     private final CustomerService customerService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public CustomerController(CustomerService customerService, ModelMapper modelMapper) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/addAddress/{id}")
     public Customer addAddressToCostumer(@RequestBody AddressDTO addressDTO, @PathVariable Long id) {
-        Address address = modelMapper.map(addressDTO, Address.class);
-
+        Address address = AddressMapper.INSTANCE.toEntity(addressDTO);
         return customerService.addAddressToCostumer(id, address);
     }
 
@@ -47,9 +46,9 @@ public class CustomerController {
         List<CustomerAddressDTO> customerAddressDTOList = new ArrayList<>();
 
         for (Customer customer : customerService.findAll()) {
-            customerAddressDTOList.add(modelMapper.map(customer, CustomerAddressDTO.class));
+            CustomerAddressDTO customerAddressDTO = CustomerAddressMapper.INSTANCE.toDto(customer);
+            customerAddressDTOList.add(customerAddressDTO);
         }
-
         return customerAddressDTOList;
     }
 
@@ -60,9 +59,8 @@ public class CustomerController {
 
     @PostMapping("/save")
     public Customer save(@RequestBody CustomerAddressDTO customerAddressDTO) {
-        Customer customer = modelMapper.map(customerAddressDTO, Customer.class);
-        Address address = modelMapper.map(customerAddressDTO, Address.class);
-
+        Customer customer = CustomerAddressMapper.INSTANCE.toCustomerEntity(customerAddressDTO);
+        Address address = CustomerAddressMapper.INSTANCE.toAddressEntity(customerAddressDTO);
         address.setMainAddress(true);
         address.setCustomer(customer);
         customer.setAddressList(List.of(address));
@@ -73,11 +71,9 @@ public class CustomerController {
 
     @PutMapping("/update/{id}")
     public Customer update(@RequestBody CustomerAddressDTO customerAddressDTO, @PathVariable Long id) {
-        Customer customer = modelMapper.map(customerAddressDTO, Customer.class);
-
+        Customer customer = CustomerAddressMapper.INSTANCE.toCustomerEntity(customerAddressDTO);
         customer.setId(id);
         customer.setAddressList(customerService.findById(id).getAddressList());
-
         return customerService.update(customer);
     }
 }

@@ -20,12 +20,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Customer save(Customer customer) {
+        //If both cpf and cnpj are null, throw exception
+        if (Objects.isNull(customer.getCpf()) && Objects.isNull(customer.getCnpj())) {
+            throw new ConstraintViolationException("Must provide at least a CPF or CNPJ", null);
+        }
+
         //If CPF already in database throw exception
-        if (Objects.nonNull(customerRepository.findByCpf(customer.getCpf()))) {
+        if (customer.getCpf() != null && Objects.nonNull(customerRepository.findByCpf(customer.getCpf()))) {
             throw new RuntimeException("CPF already in database");
         }
         //If CNPJ already in database throw exception
-        if (Objects.nonNull(customerRepository.findByCnpj(customer.getCnpj()))) {
+        if (customer.getCnpj() != null && Objects.nonNull(customerRepository.findByCnpj(customer.getCnpj()))) {
             throw new RuntimeException("CNPJ already in database");
         }
         if (customer.getAddressList().size() == 1) {

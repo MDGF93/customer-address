@@ -2,7 +2,8 @@ package com.example.customeraddress.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.modelmapper.ModelMapper;
+
+import com.example.customeraddress.mapper.AddressMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.customeraddress.dto.AddressDTO;
@@ -13,12 +14,10 @@ import com.example.customeraddress.service.AddressService;
 @RequestMapping("/address")
 public class AddressController {
     private final AddressService addressService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public AddressController(AddressService addressService, ModelMapper modelMapper) {
+    public AddressController(AddressService addressService) {
         this.addressService = addressService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/findAll")
@@ -31,7 +30,8 @@ public class AddressController {
         List<AddressDTO> addressDTOList = new ArrayList<>();
 
         for (Address address : addressService.findAll()) {
-            addressDTOList.add(modelMapper.map(address, AddressDTO.class));
+            AddressDTO addressDTO = AddressMapper.INSTANCE.toDto(address);
+            addressDTOList.add(addressDTO);
         }
 
         return addressDTOList;
@@ -44,7 +44,7 @@ public class AddressController {
 
     @GetMapping("/findDTO/{id}")
     public AddressDTO findByIdDTO(@PathVariable Long id) {
-        return modelMapper.map(addressService.findById(id), AddressDTO.class);
+        return AddressMapper.INSTANCE.toDto(addressService.findById(id));
     }
 
     @PostMapping("/update")

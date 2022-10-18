@@ -12,50 +12,50 @@ import javax.validation.constraints.Pattern;
 public class CustomerAddressDTO {
 
     @NotBlank
-    private String firstName;
+    public String firstName;
 
     @NotBlank
-    private String lastName;
+    public String lastName;
 
     @Email
-    private String email;
+    public String email;
 
     @Pattern(regexp = "^\\([1-9]{2}\\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$")// (99) 99999-9999
-    private String phone;
+    public String phone;
 
     @CPF(message = "CPF inválido")
     @Nullable
-    private String cpf = null;
+    public String cpf = null;
 
     @CNPJ
     @Nullable
-    private String cnpj = null;
+    public String cnpj = null;
 
     @NotBlank
     @Pattern(regexp = "^\\d{5}-\\d{3}$") // 99999-999
-    private String cep;
+    public String cep;
 
     @NotBlank
-    private String city;
+    public String city;
 
     @NotBlank
-    private String state;
+    public String state;
 
     @NotBlank
-    private String street;
+    public String street;
 
     @NotBlank
-    private String number;
+    public String number;
 
     @Nullable
-    private String extraInfo;
+    public String extraInfo;
 
-    private boolean mainAddress = false;
+    public boolean mainAddress = false;
 
     public CustomerAddressDTO() {
     }
 
-    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, @MaybeNull String cpf, @MaybeNull String cnpj, String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress) {
+    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, @MaybeNull String cpf, @MaybeNull String cnpj, String cep, String city, String state, String street, String number, @MaybeNull String extraInfo, boolean mainAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
