@@ -2,12 +2,7 @@ package com.example.customeraddress.entity;
 
 import lombok.Data;
 import net.bytebuddy.utility.nullability.MaybeNull;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.lang.Nullable;
-
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
