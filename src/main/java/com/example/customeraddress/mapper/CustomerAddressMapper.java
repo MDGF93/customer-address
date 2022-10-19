@@ -6,11 +6,8 @@ import com.example.customeraddress.entity.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import static org.mapstruct.factory.Mappers.getMapper;
-
 @Mapper(componentModel = "spring")
 public interface CustomerAddressMapper {
-    CustomerAddressMapper INSTANCE = getMapper(CustomerAddressMapper.class);
 
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")

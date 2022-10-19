@@ -1,60 +1,67 @@
 package com.example.customeraddress.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.bytebuddy.utility.nullability.MaybeNull;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.lang.Nullable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+@Getter
+@Setter
 public class CustomerAddressDTO {
 
     @NotBlank
-    public String firstName;
+    private String firstName;
 
     @NotBlank
-    public String lastName;
+    private String lastName;
 
     @Email
-    public String email;
+    private String email;
 
     @Pattern(regexp = "^\\([1-9]{2}\\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$")// (99) 99999-9999
-    public String phone;
+    private String phone;
 
     @CPF(message = "CPF inválido")
     @Nullable
-    public String cpf = null;
+    private String cpf = null;
 
     @CNPJ
     @Nullable
-    public String cnpj = null;
+    private String cnpj = null;
 
     @NotBlank
     @Pattern(regexp = "^\\d{5}-\\d{3}$") // 99999-999
-    public String cep;
+    private String cep;
 
     @NotBlank
-    public String city;
+    private String city;
 
     @NotBlank
-    public String state;
+    private String state;
 
     @NotBlank
-    public String street;
+    private String street;
 
     @NotBlank
-    public String number;
+    private String number;
 
     @Nullable
-    public String extraInfo;
+    private String extraInfo;
 
-    public boolean mainAddress = false;
+    private boolean mainAddress = false;
 
     public CustomerAddressDTO() {
     }
 
-    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, @MaybeNull String cpf, @MaybeNull String cnpj, String cep, String city, String state, String street, String number, @MaybeNull String extraInfo, boolean mainAddress) {
+    public CustomerAddressDTO(String firstName, String lastName, String email, String phone, @MaybeNull String cpf,
+                              @MaybeNull String cnpj, String cep, String city, String state, String street,
+                              String number, @MaybeNull String extraInfo, boolean mainAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

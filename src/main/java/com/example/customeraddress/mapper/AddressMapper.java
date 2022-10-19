@@ -6,12 +6,8 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import static org.mapstruct.factory.Mappers.getMapper;
-
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
-    AddressMapper INSTANCE = getMapper(AddressMapper.class);
-
     @Mapping(source = "cep", target = "cep")
     @Mapping(source = "city", target = "city")
     @Mapping(source = "state", target = "state")

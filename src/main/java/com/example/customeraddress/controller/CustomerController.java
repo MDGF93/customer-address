@@ -17,38 +17,55 @@ import java.util.List;
 @RequestMapping("/customer")
 public class CustomerController {
     private final CustomerService customerService;
+    private final CustomerAddressMapper customerAddressMapper;
+    private final AddressMapper addressMapper;
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, CustomerAddressMapper customerAddressMapper,
+                              AddressMapper addressMapper) {
+        this.customerAddressMapper = customerAddressMapper;
         this.customerService = customerService;
+        this.addressMapper = addressMapper;
     }
 
-    @PostMapping("/addAddress/{id}")
+    @PostMapping("/{id}/addAddress/")
     public Customer addAddressToCostumer(@RequestBody AddressDTO addressDTO, @PathVariable Long id) {
-        Address address = AddressMapper.INSTANCE.toEntity(addressDTO);
+        Address address = addressMapper.toEntity(addressDTO);
+
         return customerService.addAddressToCostumer(id, address);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}/")
     public void delete(@PathVariable Long id) {
         customerService.delete(id);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping
     public List<Customer> findAll() {
         return customerService.findAll();
     }
 
-    @GetMapping("/findAllDTO")
+    @GetMapping("/DTO/")
     public List<CustomerAddressDTO> findAllDTO() {
 
         // convert entity to dto
         List<CustomerAddressDTO> customerAddressDTOList = new ArrayList<>();
 
         for (Customer customer : customerService.findAll()) {
-            CustomerAddressDTO customerAddressDTO = CustomerAddressMapper.INSTANCE.toDto(customer);
+            CustomerAddressDTO customerAddressDTO = customerAddressMapper.toDto(customer);
             customerAddressDTOList.add(customerAddressDTO);
         }
+
         return customerAddressDTOList;
+    }
+
+    @GetMapping("/{id}/")
+    public Customer findById(@PathVariable Long id) {
+        return customerService.findById(id);
+    }
+
+    @GetMapping("/{id}/DTO/")
+    public CustomerAddressDTO findByIdDTO(@PathVariable Long id) {
+        return customerAddressMapper.toDto(customerService.findById(id));
     }
 
     @DeleteMapping("/removeAddress/{id}/{addressId}")
@@ -58,8 +75,9 @@ public class CustomerController {
 
     @PostMapping("/save")
     public Customer save(@RequestBody CustomerAddressDTO customerAddressDTO) {
-        Customer customer = CustomerAddressMapper.INSTANCE.toCustomerEntity(customerAddressDTO);
-        Address address = CustomerAddressMapper.INSTANCE.toAddressEntity(customerAddressDTO);
+        Customer customer = customerAddressMapper.toCustomerEntity(customerAddressDTO);
+        Address  address  = customerAddressMapper.toAddressEntity(customerAddressDTO);
+
         address.setMainAddress(true);
         address.setCustomer(customer);
         customer.setAddressList(List.of(address));
@@ -70,9 +88,11 @@ public class CustomerController {
 
     @PutMapping("/update/{id}")
     public Customer update(@RequestBody CustomerAddressDTO customerAddressDTO, @PathVariable Long id) {
-        Customer customer = CustomerAddressMapper.INSTANCE.toCustomerEntity(customerAddressDTO);
+        Customer customer = customerAddressMapper.toCustomerEntity(customerAddressDTO);
+
         customer.setId(id);
         customer.setAddressList(customerService.findById(id).getAddressList());
+
         return customerService.update(customer);
     }
 }
