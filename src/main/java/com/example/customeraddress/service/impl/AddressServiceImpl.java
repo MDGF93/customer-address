@@ -3,7 +3,9 @@ package com.example.customeraddress.service.impl;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.repository.AddressRepository;
 import com.example.customeraddress.service.AddressService;
+import com.example.customeraddress.service.exception.InvalidAddressIdException;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -26,7 +28,7 @@ public class AddressServiceImpl implements AddressService {
         if (addressRepository.findById(id).isPresent()) {
             return addressRepository.findById(id).get();
         }
-        throw new RuntimeException("Address not found");
+        throw new InvalidAddressIdException();
     }
 
     public Address update(Long id, Address address) {
@@ -46,6 +48,6 @@ public class AddressServiceImpl implements AddressService {
             address.setMainAddress(true);
             return addressRepository.save(address);
         }
-        throw new RuntimeException("Address not found");
+        throw new InvalidAddressIdException();
     }
 }

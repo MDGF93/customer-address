@@ -4,6 +4,7 @@ import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
 import com.example.customeraddress.repository.CustomerRepository;
 import com.example.customeraddress.service.CustomerService;
+import com.example.customeraddress.service.exception.InvalidCustomerIdException;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -60,13 +61,13 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRepository.findById(id).isPresent()) {
             return customerRepository.findById(id).get();
         }
-        throw new RuntimeException("Customer not found");
+        throw new InvalidCustomerIdException();
     }
 
     public void delete(Long id) {
         if (customerRepository.findById(id).isPresent()) {
             customerRepository.deleteById(id);
-        } else throw new RuntimeException("Customer id not found");
+        } else throw new InvalidCustomerIdException();
     }
 
     @SneakyThrows
@@ -98,7 +99,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRepository.findById(id).isPresent()) {
             Customer customer = customerRepository.findById(id).get();
             if (customer.getAddressList().size() == 1) {
-                throw new RuntimeException("Customer can't have less than 1 address");
+                throw new ConstraintViolationException(null);
             }
             for (Address address : customer.getAddressList()) {
                 if (Objects.equals(address.getId(), addressId)) {
