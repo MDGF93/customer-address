@@ -173,4 +173,14 @@ public class CustomerController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", e);
         }
     }
+
+    @GetMapping("/generate-fake-data-from-csv")
+    public void generateFakeDataFromCSV() {
+        try {
+            customerService.generateFakeDataFromCSV();
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", e);
+        }
+    }
 }

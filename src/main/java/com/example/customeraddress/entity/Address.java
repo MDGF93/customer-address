@@ -3,6 +3,7 @@ package com.example.customeraddress.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,7 +11,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -26,6 +28,18 @@ public class Address {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Customer customer;
+
+    public Address(String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress, Customer customer) {
+        this.cep = cep;
+        this.city = city;
+        this.state = state;
+        this.street = street;
+        this.number = number;
+        this.extraInfo = extraInfo;
+        this.mainAddress = mainAddress;
+        this.customer = customer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

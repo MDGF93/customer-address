@@ -1,26 +1,36 @@
 package com.example.customeraddress.service.impl;
 
+import com.example.customeraddress.dto.CustomerAddressDTO;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
+import com.example.customeraddress.repository.AddressRepository;
 import com.example.customeraddress.repository.CustomerRepository;
 import com.example.customeraddress.service.CustomerService;
 import com.example.customeraddress.service.exception.InvalidCustomerIdException;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
+        this.addressRepository = addressRepository;
     }
 
-    public Customer save(Customer customer) {
+    public void save(Customer customer) {
         //If both cpf and cnpj are null, throw exception
         if (Objects.isNull(customer.getCpf()) && Objects.isNull(customer.getCnpj())) {
             throw new ConstraintViolationException("Must provide at least a CPF or CNPJ", null);
@@ -38,7 +48,6 @@ public class CustomerServiceImpl implements CustomerService {
             customer.getAddressList().get(0).setMainAddress(true);
         }
         customerRepository.save(customer);
-        return customer;
     }
 
     public Customer update(Customer customer) {
@@ -118,5 +127,36 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException("Address not found");
         }
         throw new RuntimeException("Customer not found");
+    }
+
+    public void generateFakeDataFromCSV() {
+        String path = "src/main/resources/fakedata.csv";
+        try (CSVReader reader = new CSVReader(new FileReader(path))) {
+            List<String[]> r = reader.readAll();
+            for (int i = 1; i < r.size(); i++) {
+                CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO();
+                customerAddressDTO.setFirstName(r.get(i)[0]);
+                customerAddressDTO.setLastName(r.get(i)[1]);
+                customerAddressDTO.setEmail(r.get(i)[2]);
+                customerAddressDTO.setPhone(r.get(i)[3]);
+                customerAddressDTO.setCpf(r.get(i)[4]);
+                customerAddressDTO.setCnpj(r.get(i)[5]);
+                customerAddressDTO.setCep(r.get(i)[6]);
+                customerAddressDTO.setCity(r.get(i)[7]);
+                customerAddressDTO.setState(r.get(i)[8]);
+                customerAddressDTO.setStreet(r.get(i)[9]);
+                customerAddressDTO.setNumber(r.get(i)[10]);
+                customerAddressDTO.setExtraInfo(r.get(i)[11]);
+                customerAddressDTO.setMainAddress(true);
+                Customer customer = new Customer(customerAddressDTO.getFirstName(), customerAddressDTO.getLastName(), customerAddressDTO.getEmail(), customerAddressDTO.getPhone(), customerAddressDTO.getCpf(), customerAddressDTO.getCnpj());
+                Address address = new Address(customerAddressDTO.getCep(), customerAddressDTO.getCity(), customerAddressDTO.getState(), customerAddressDTO.getStreet(), customerAddressDTO.getNumber(), customerAddressDTO.getExtraInfo(), customerAddressDTO.isMainAddress(), customer);
+                customer.setAddressList(new ArrayList<>());
+                customer.getAddressList().add(address);
+                customerRepository.save(customer);
+                addressRepository.save(address);
+            }
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
