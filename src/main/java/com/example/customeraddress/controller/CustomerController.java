@@ -183,4 +183,17 @@ public class CustomerController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", e);
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Customer>> search(@RequestParam(value = "firstName", defaultValue = "") String firstName,
+                                                 @RequestParam(value = "lastName", defaultValue = "") String lastName,
+                                                 @RequestParam(value = "phone", defaultValue = "") String phone)
+    {
+        try {
+            return new ResponseEntity<>(customerService.search(firstName, lastName, phone), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", e);
+        }
+    }
 }

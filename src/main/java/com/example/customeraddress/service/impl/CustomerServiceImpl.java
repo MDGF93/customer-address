@@ -159,4 +159,19 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Customer> searchByFirstAndLastName(String firstName, String lastName) {
+        return customerRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<Customer> searchByCity(String city) {
+        return customerRepository.findByAddressListCity(city);
+    }
+
+    @Override
+    public List<Customer> search(String firstName, String lastName, String phone) {
+        return customerRepository.findByFirstNameAndLastNameAndPhone(firstName, lastName, phone);
+    }
 }

@@ -14,4 +14,9 @@ public interface CustomerService {
     public Customer addAddressToCostumer(Long id, Address address);
     public Customer removeAddressFromCustomer(Long id, Long addressId);
     public void generateFakeDataFromCSV();
+    List<Customer> searchByFirstAndLastName(String firstName, String lastName);
+
+    List<Customer> searchByCity(String city);
+
+    List<Customer> search(String firstName, String lastName, String phone);
 }
