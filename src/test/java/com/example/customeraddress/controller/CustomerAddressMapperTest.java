@@ -3,6 +3,7 @@ package com.example.customeraddress.controller;
 import com.example.customeraddress.dto.CustomerAddressDTO;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
+import com.example.customeraddress.mapper.AddressMapper;
 import com.example.customeraddress.mapper.CustomerAddressMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CustomerAddressMapperTest {
+    private final AddressMapper addressMapper;
+    private final CustomerAddressMapper customerAddressMapper;
+    public CustomerAddressMapperTest(AddressMapper addressMapper, CustomerAddressMapper customerAddressMapper) {
+        this.addressMapper = addressMapper;
+        this.customerAddressMapper = customerAddressMapper;
+    }
     String VALID_CPF = "03365100040";
     String VALID_CNPJ = "85677342000101";
     String VALID_PHONE = "(83) 99999-9999";
@@ -31,7 +38,7 @@ public class CustomerAddressMapperTest {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         //when
-        Customer customer = CustomerAddressMapper.INSTANCE.toCustomerEntity(customerAddressDTO);
+        Customer customer = customerAddressMapper.toCustomerEntity(customerAddressDTO);
         System.out.println("CustomerAddressDTO -> Customer : " + customer);
     }
 
@@ -42,8 +49,11 @@ public class CustomerAddressMapperTest {
         CustomerAddressDTO customerAddressDTO = new CustomerAddressDTO(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_EMAIL,
                 VALID_PHONE, VALID_CPF, VALID_CNPJ, VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
         //when
-        Address address = CustomerAddressMapper.INSTANCE.toAddressEntity(customerAddressDTO);
+        Address address = customerAddressMapper.toAddressEntity(customerAddressDTO);
         System.out.println("CustomerAddressDTO -> Address : " + address);
     }
 
+    public AddressMapper getAddressMapper() {
+        return addressMapper;
+    }
 }

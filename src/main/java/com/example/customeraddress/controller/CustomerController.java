@@ -196,4 +196,5 @@ public class CustomerController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", e);
         }
     }
+
 }

@@ -24,13 +24,18 @@ public class AddressMapperTest {
     String VALID_CEP = "58000-000";
     String VALID_EXTRAINFO = "Apto 201";
 
+    private final AddressMapper addressMapper;
+
+    public AddressMapperTest(AddressMapper addressMapper) {
+        this.addressMapper = addressMapper;
+    }
+
     @Test
     public void shouldMapAddressDTOToAddress() {
         //given
         AddressDTO addressDTO = new AddressDTO(VALID_CEP, VALID_CITY, VALID_STATE, VALID_STREET, VALID_NUMBER, VALID_EXTRAINFO, true);
-
+        Address address = addressMapper.toEntity(addressDTO);
         //when
-        Address address = AddressMapper.INSTANCE.toEntity(addressDTO);
         System.out.println("AddressDTO -> Address : " + address);
     }
 }
