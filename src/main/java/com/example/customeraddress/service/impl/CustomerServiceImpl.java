@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
         this.addressRepository = addressRepository;
     }
 
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
         //If both cpf and cnpj are null, throw exception
         if (Objects.isNull(customer.getCpf()) && Objects.isNull(customer.getCnpj())) {
             throw new ConstraintViolationException("Must provide at least a CPF or CNPJ", null);
@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer.getAddressList().size() == 1) {
             customer.getAddressList().get(0).setMainAddress(true);
         }
-        customerRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
     public Customer update(Customer customer) {
@@ -80,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @SneakyThrows
-    public Customer addAddressToCostumer(Long id, Address address) {
+    public Customer addAddressToCustomer(Long id, Address address) {
         if (customerRepository.findById(id).isPresent()) {
             if (customerRepository.findById(id).get().getAddressList().size() >= 5) {
                 throw new ConstraintViolationException(null);
@@ -149,7 +149,15 @@ public class CustomerServiceImpl implements CustomerService {
                 customerAddressDTO.setExtraInfo(r.get(i)[11]);
                 customerAddressDTO.setMainAddress(true);
                 Customer customer = new Customer(customerAddressDTO.getFirstName(), customerAddressDTO.getLastName(), customerAddressDTO.getEmail(), customerAddressDTO.getPhone(), customerAddressDTO.getCpf(), customerAddressDTO.getCnpj());
-                Address address = new Address(customerAddressDTO.getCep(), customerAddressDTO.getCity(), customerAddressDTO.getState(), customerAddressDTO.getStreet(), customerAddressDTO.getNumber(), customerAddressDTO.getExtraInfo(), customerAddressDTO.isMainAddress(), customer);
+                Address address = new Address(customerAddressDTO.getCep(),
+                                customerAddressDTO.getCity(),
+                                customerAddressDTO.getState(),
+                                customerAddressDTO.getStreet(),
+                                customerAddressDTO.getNumber(),
+                                customerAddressDTO.getExtraInfo(),
+                                customerAddressDTO.isMainAddress(),
+                                null,
+                                customer);
                 customer.setAddressList(new ArrayList<>());
                 customer.getAddressList().add(address);
                 customerRepository.save(customer);

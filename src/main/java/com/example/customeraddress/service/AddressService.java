@@ -9,5 +9,7 @@ public interface AddressService {
     public List<Address> findAll();
     public Address findById(Long id);
     public Address update(Long id, Address address);
-    Address setMainAddress(Long id);
+    public Address setMainAddress(Long id);
+
+    public Address delete(Address valid_address);
 }
