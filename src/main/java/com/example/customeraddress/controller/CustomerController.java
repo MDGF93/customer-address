@@ -38,7 +38,7 @@ public class CustomerController {
     public ResponseEntity<Customer> addAddressToCostumer(@Valid @RequestBody AddressDTO addressDTO, @PathVariable Long id) {
         try {
             Address address = addressMapper.toEntity(addressDTO);
-            return new ResponseEntity<>(customerService.addAddressToCostumer(id, address), HttpStatus.CREATED);
+            return new ResponseEntity<>(customerService.addAddressToCustomer(id, address), HttpStatus.CREATED);
         }
         catch (ConstraintViolationException moreThanFiveAddresses) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer can't have more than 5 addresses at the same time.", moreThanFiveAddresses);

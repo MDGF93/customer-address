@@ -24,6 +24,7 @@ public interface CustomerAddressMapper {
     @Mapping(source = "number", target = "number")
     @Mapping(source = "extraInfo", target = "extraInfo")
     @Mapping(source = "mainAddress", target = "mainAddress")
+    @Mapping(source = "addressName", target = "addressName")
     Address toAddressEntity(CustomerAddressDTO customerAddressDTO);
 
     @Mapping(source = "customer.firstName", target = "firstName")
@@ -39,6 +40,7 @@ public interface CustomerAddressMapper {
     @Mapping(source = "address.number", target = "number")
     @Mapping(source = "address.extraInfo", target = "extraInfo")
     @Mapping(source = "address.mainAddress", target = "mainAddress")
+    @Mapping(source = "address.addressName", target = "addressName")
     CustomerAddressDTO toDto(Customer customer, Address address);
 
     @Mapping(source = "firstName", target = "firstName")
@@ -48,4 +50,5 @@ public interface CustomerAddressMapper {
     @Mapping(source = "cpf", target = "cpf")
     @Mapping(source = "cnpj", target = "cnpj")
     CustomerAddressDTO toDto(Customer customer);
+
 }

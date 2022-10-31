@@ -2,6 +2,7 @@ package com.example.customeraddress.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import net.bytebuddy.utility.nullability.MaybeNull;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -23,13 +24,15 @@ public class Address {
     private String street;
     private String number;
     private String extraInfo;
+    private String addressName;
     private boolean mainAddress;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
+    @ToString.Exclude
     private Customer customer;
 
-    public Address(String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress, Customer customer) {
+    public Address(String cep, String city, String state, String street, String number, String extraInfo, boolean mainAddress, @MaybeNull String addressName, Customer customer) {
         this.cep = cep;
         this.city = city;
         this.state = state;
@@ -37,6 +40,7 @@ public class Address {
         this.number = number;
         this.extraInfo = extraInfo;
         this.mainAddress = mainAddress;
+        this.addressName = addressName;
         this.customer = customer;
     }
 
@@ -51,4 +55,6 @@ public class Address {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+
 }
