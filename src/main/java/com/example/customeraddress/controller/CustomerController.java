@@ -17,7 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -80,12 +79,7 @@ public class CustomerController {
     public ResponseEntity<List<CustomerAddressDTO>> findAllDTO() {
         try {
             // convert entity to dto
-            List<CustomerAddressDTO> customerAddressDTOList = new ArrayList<>();
-            for (Customer customer : customerService.findAll()) {
-                CustomerAddressDTO customerAddressDTO = customerAddressMapper.toDto(customer);
-                customerAddressDTOList.add(customerAddressDTO);
-            }
-
+            List<CustomerAddressDTO> customerAddressDTOList = customerAddressMapper.toDtoList(customerService.findAll());
             return new ResponseEntity<>(customerAddressDTOList, HttpStatus.OK);
         }
         catch (Exception e) {
@@ -109,9 +103,14 @@ public class CustomerController {
     @GetMapping("/{id}/DTO")
     public ResponseEntity<CustomerAddressDTO> findByIdDTO(@PathVariable Long id) {
         try {
-            // convert entity to dto
             CustomerAddressDTO customerAddressDTO = customerAddressMapper.toDto(customerService.findById(id));
-            return new ResponseEntity<>(customerAddressDTO, HttpStatus.OK);
+            CustomerAddressDTO result = null;
+            for (Address address : customerService.findById(id).getAddressList()) {
+                if (address.isMainAddress()) {
+                    result = customerAddressMapper.updateDtoFromAddress(address, customerAddressDTO);
+                }
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         catch (InvalidCustomerIdException customerNotFound) {
             throw new InvalidCustomerIdException(HttpStatus.NOT_FOUND, "Can't find a customer with id number " + id.toString(), customerNotFound);
