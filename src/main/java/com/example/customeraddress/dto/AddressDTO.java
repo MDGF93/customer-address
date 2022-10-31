@@ -25,13 +25,17 @@ public class AddressDTO {
     private String number;
     @Nullable
     private String extraInfo;
+
+    @Nullable
+    private String name;
+
     @NotNull
     private boolean mainAddress;
 
     public AddressDTO() {}
 
     public AddressDTO(String cep, String city, String state, String street, String number, @MaybeNull String extraInfo,
-                      boolean mainAddress) {
+                      boolean mainAddress, @MaybeNull String name) {
         this.cep         = cep;
         this.city        = city;
         this.state       = state;
@@ -39,5 +43,6 @@ public class AddressDTO {
         this.number      = number;
         this.extraInfo   = extraInfo;
         this.mainAddress = mainAddress;
+        this.name        = name;
     }
 }

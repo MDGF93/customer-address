@@ -54,6 +54,9 @@ public class CustomerAddressDTO {
     @Nullable
     private String extraInfo;
 
+    @Nullable
+    private String addressName;
+
     private boolean mainAddress = false;
 
     public CustomerAddressDTO() {
@@ -61,7 +64,7 @@ public class CustomerAddressDTO {
 
     public CustomerAddressDTO(String firstName, String lastName, String email, String phone, @MaybeNull String cpf,
                               @MaybeNull String cnpj, String cep, String city, String state, String street,
-                              String number, @MaybeNull String extraInfo, boolean mainAddress) {
+                              String number, @MaybeNull String extraInfo, boolean mainAddress, @MaybeNull String addressName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -75,5 +78,6 @@ public class CustomerAddressDTO {
         this.number = number;
         this.extraInfo = extraInfo;
         this.mainAddress = mainAddress;
+        this.addressName = addressName;
     }
 }

@@ -19,4 +19,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query("SELECT c FROM Customer c WHERE c.firstName LIKE %?1% AND c.lastName LIKE %?2% AND c.phone LIKE %?3%")
     List<Customer> findByFirstNameAndLastNameAndPhone(String firstName, String lastName, String phone);
+
+    boolean existsByCpf(String cpf);
 }

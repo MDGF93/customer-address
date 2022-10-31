@@ -50,4 +50,15 @@ public class AddressServiceImpl implements AddressService {
         }
         throw new InvalidAddressIdException();
     }
+
+    @Override
+    public Address delete(Address valid_address) {
+        addressRepository.delete(valid_address);
+        return valid_address;
+
+    }
+
+    public Address findByCep(String valid_cep) {
+        return addressRepository.findByCep(valid_cep);
+    }
 }
