@@ -1,9 +1,9 @@
 package com.example.customeraddress.controller;
 
-import com.example.customeraddress.dto.AddressDTO;
-import com.example.customeraddress.dto.CustomerAddressDTO;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
+import com.example.customeraddress.entity.dto.AddressDTO;
+import com.example.customeraddress.entity.dto.CustomerAddressDTO;
 import com.example.customeraddress.mapper.AddressMapper;
 import com.example.customeraddress.mapper.CustomerAddressMapper;
 import com.example.customeraddress.service.CustomerService;

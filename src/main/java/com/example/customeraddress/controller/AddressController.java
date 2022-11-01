@@ -1,7 +1,7 @@
 package com.example.customeraddress.controller;
 
-import com.example.customeraddress.dto.AddressDTO;
 import com.example.customeraddress.entity.Address;
+import com.example.customeraddress.entity.dto.AddressDTO;
 import com.example.customeraddress.mapper.AddressMapper;
 import com.example.customeraddress.service.AddressService;
 import com.example.customeraddress.service.exception.InvalidAddressIdException;

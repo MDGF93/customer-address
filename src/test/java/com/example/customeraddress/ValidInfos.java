@@ -1,8 +1,8 @@
 package com.example.customeraddress;
 
-import com.example.customeraddress.dto.CustomerAddressDTO;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
+import com.example.customeraddress.entity.dto.CustomerAddressDTO;
 
 import java.util.List;
 

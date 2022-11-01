@@ -1,8 +1,8 @@
 package com.example.customeraddress.mapper;
 
-import com.example.customeraddress.dto.CustomerAddressDTO;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
+import com.example.customeraddress.entity.dto.CustomerAddressDTO;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -50,10 +50,6 @@ public interface CustomerAddressMapper {
     @Mapping(target = "addressName", ignore = true)
     CustomerAddressDTO toDto(Customer customer);
 
-    default List<CustomerAddressDTO> toDtoList(List<Customer> customerList, List<Address> addressList) {
-        return customerList.stream().map(customer -> toDto(customer, addressList.stream().filter(address -> address.getCustomer().getId().equals(customer.getId())).findFirst().orElse(null))).collect(Collectors.toList());
-    }
-
     default List<CustomerAddressDTO> toDtoList(List<Customer> customerList) {
         return customerList.stream().map(this::toDto).collect(Collectors.toList());
     }
@@ -65,4 +61,5 @@ public interface CustomerAddressMapper {
     @Mapping(target = "cpf", ignore = true)
     @Mapping(target = "cnpj", ignore = true)
     CustomerAddressDTO updateDtoFromAddress(Address address, @MappingTarget CustomerAddressDTO customerAddressDTO);
+
 }

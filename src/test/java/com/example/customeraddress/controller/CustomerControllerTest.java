@@ -2,12 +2,9 @@ package com.example.customeraddress.controller;
 
 
 import com.example.customeraddress.ValidInfos;
-import com.example.customeraddress.dto.AddressDTO;
-import com.example.customeraddress.dto.CustomerAddressDTO;
-import com.example.customeraddress.mapper.AddressMapper;
-import com.example.customeraddress.mapper.CustomerAddressMapper;
+import com.example.customeraddress.entity.dto.AddressDTO;
+import com.example.customeraddress.entity.dto.CustomerAddressDTO;
 import com.example.customeraddress.repository.CustomerRepository;
-import com.example.customeraddress.service.impl.CustomerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +24,6 @@ public class CustomerControllerTest extends ValidInfos {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private CustomerAddressMapper customerAddressMapper;
-
-    @Autowired
-    private CustomerServiceImpl customerService;
-
-    @Autowired
-    private AddressMapper addressMapper;
 
     @Autowired
     private CustomerRepository customerRepository;

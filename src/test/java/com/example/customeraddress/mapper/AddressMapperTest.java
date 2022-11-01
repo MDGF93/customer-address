@@ -1,8 +1,8 @@
 package com.example.customeraddress.mapper;
 
 import com.example.customeraddress.ValidInfos;
-import com.example.customeraddress.dto.AddressDTO;
 import com.example.customeraddress.entity.Address;
+import com.example.customeraddress.entity.dto.AddressDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,7 +1,7 @@
 package com.example.customeraddress.mapper;
 
-import com.example.customeraddress.dto.AddressDTO;
 import com.example.customeraddress.entity.Address;
+import com.example.customeraddress.entity.dto.AddressDTO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

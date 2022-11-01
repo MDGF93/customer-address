@@ -1,4 +1,4 @@
-package com.example.customeraddress.dto;
+package com.example.customeraddress.entity.dto;
 
 import lombok.Data;
 import net.bytebuddy.utility.nullability.MaybeNull;

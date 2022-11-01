@@ -1,8 +1,8 @@
 package com.example.customeraddress.service.impl;
 
-import com.example.customeraddress.dto.CustomerAddressDTO;
 import com.example.customeraddress.entity.Address;
 import com.example.customeraddress.entity.Customer;
+import com.example.customeraddress.entity.dto.CustomerAddressDTO;
 import com.example.customeraddress.repository.AddressRepository;
 import com.example.customeraddress.repository.CustomerRepository;
 import com.example.customeraddress.service.CustomerService;
